@@ -1,18 +1,15 @@
-// server.js
-require('dotenv').config()
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const morgan = require('morgan');
 
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
-const morgan = require('morgan')
+const categoriasRouter = require('./routes/categoria.rutas.js');
+const productosRouter = require('./routes/categoria.rutas.js');
 
-// Rutas
-const categoriasRouter = require('./routes/categoria.rutas.js')
-const productosRouter = require('./routes/categoria.rutas.js')
+const app = express();
 
-const app = express()
-
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/miinventario'
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/mercapp'
 
 mongoose
   .connect(mongoUri)
@@ -58,7 +55,8 @@ app.use((err, req, res, next) => {
   })
 })
 
-const port = process.env.PORT || 3000
-app.listen(port, () => {
-  console.log(`🚀 Servidor escuchando en http://localhost:${port}`)
-})
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor backend escuchando en http://localhost:${PORT}`);
+});
