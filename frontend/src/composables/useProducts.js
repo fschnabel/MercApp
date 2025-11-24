@@ -1,32 +1,50 @@
-import { computed, ref, watchEffect } from 'vue';
+// src/composables/useProducts.js
+import { computed, ref } from 'vue';
 import { useApi } from './useApi';
 
 export function useProducts() {
   const search = ref('');
   const categoryId = ref('');
-  const { data, loading, error, request } = useApi();
-  const { data: categories, request: requestCategories } = useApi();
+
+  // instancia para productos
+  const {
+    data: productosData,
+    loading,
+    error,
+    request: requestProductos,
+  } = useApi();
+
+  // instancia para categorías
+  const {
+    data: categoriasData,
+    request: requestCategorias,
+  } = useApi();
 
   async function load() {
     await Promise.all([
-      request('/api/products'),
-      requestCategories('/api/categories')
+      requestProductos('/api/producto'),
+      requestCategorias('/api/categoria'),
     ]);
   }
 
-  const products = computed(() => data.value || []);
+  const products = computed(() => productosData.value || []);
+  const categories = computed(() => categoriasData.value || []);
+
   const visibleProducts = computed(() => {
-    return products.value.filter(p => {
+    return products.value.filter((p) => {
+      const s = search.value.toLowerCase();
+
       const matchesSearch =
-        p.name.toLowerCase().includes(search.value.toLowerCase()) ||
-        p.description.toLowerCase().includes(search.value.toLowerCase());
-      const matchesCategory = !categoryId.value || p.categoryId === Number(categoryId.value);
+        p.nombre.toLowerCase().includes(s) ||
+        p.descripcion.toLowerCase().includes(s);
+
+      // si en Mongo/Express guardas `categoriaId`
+      const matchesCategory =
+        !categoryId.value ||
+        p.categoriaId === Number(categoryId.value);
+
       return matchesSearch && matchesCategory;
     });
-  });
-
-  watchEffect(() => {
-    // podrías agregar lógica reactiva extra aquí
   });
 
   return {
@@ -37,6 +55,6 @@ export function useProducts() {
     error,
     search,
     categoryId,
-    load
+    load,
   };
 }

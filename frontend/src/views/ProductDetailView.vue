@@ -15,18 +15,18 @@
     <div v-else class="product-detail">
       <div class="image-column">
         <img
-          :src="product.imageUrl"
-          :alt="product.name"
+          :src="product.imagenUrl"
+          :alt="product.nombre"
           class="product-image"
         />
       </div>
 
       <div class="info-column">
-        <h1 class="title">{{ product.name }}</h1>
-        <p class="price">$ {{ product.price.toFixed(2) }}</p>
+        <h1 class="title">{{ product.nombre }}</h1>
+        <p class="price">$ {{ product.precio.toFixed(2) }}</p>
 
-        <p class="category" v-if="product.category?.name">
-          Categoría: <span>{{ product.category.name }}</span>
+        <p class="category" v-if="product.categoria?.nombre">
+          Categoría: <span>{{ product.categoria.nombre }}</span>
         </p>
         <p class="stock" :class="{ 'stock-low': product.stock === 0 }">
           Stock:
@@ -35,7 +35,7 @@
         </p>
 
         <p class="description">
-          {{ product.description }}
+          {{ product.descripcion }}
         </p>
 
         <div class="actions">
@@ -86,7 +86,7 @@ const quantity = ref(1);
 
 const subtotal = computed(() => {
   if (!product.value) return 0;
-  return product.value.price * quantity.value;
+  return product.value.precio * quantity.value;
 });
 
 function loadCart() {
@@ -116,9 +116,9 @@ function addToCart() {
   } else {
     cart.push({
       productId: product.value.id,
-      name: product.value.name,
-      price: product.value.price,
-      imageUrl: product.value.imageUrl,
+      nombre: product.value.nombre,
+      precio: product.value.precio,
+      imagenUrl: product.value.imagenUrl,
       quantity: quantity.value,
     });
   }
@@ -135,7 +135,7 @@ async function fetchProduct() {
   const id = route.params.id;
 
   try {
-    const res = await fetch(`${API_BASE_URL}/products/${id}`);
+    const res = await fetch(`${API_BASE_URL}/producto/${id}`);
     if (!res.ok) {
       if (res.status === 404) {
         product.value = null;

@@ -40,7 +40,7 @@ export function useCart() {
   }
 
   const total = computed(() =>
-    state.items.reduce((sum, i) => sum + i.price * i.quantity, 0)
+    state.items.reduce((sum, i) => sum + i.precio * i.quantity, 0)
   );
 
   return { items, add, remove, updateQuantity, total };

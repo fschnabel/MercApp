@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
 
-const categoriasRouter = require('./routes/categoria.rutas.js');
-const productosRouter = require('./routes/categoria.rutas.js');
+const categoriasRouter = require('./routes/categoria.rutas');
+const productosRouter = require('./routes/producto.rutas');
 
 const app = express();
 

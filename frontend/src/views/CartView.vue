@@ -24,13 +24,13 @@
           <tr v-for="item in items" :key="item.productId">
             <td class="product-cell">
               <img
-                :src="item.imageUrl"
-                :alt="item.name"
+                :src="item.imagenUrl"
+                :alt="item.nombre"
                 class="thumb"
               />
-              <span>{{ item.name }}</span>
+              <span>{{ item.nombre }}</span>
             </td>
-            <td class="center">$ {{ item.price.toFixed(2) }}</td>
+            <td class="center">$ {{ item.precio.toFixed(2) }}</td>
             <td class="center">
               <input
                 type="number"
@@ -40,10 +40,10 @@
               />
             </td>
             <td class="right">
-              $ {{ (item.price * item.quantity).toFixed(2) }}
+              $ {{ (item.precio * item.quantity).toFixed(2) }}
             </td>
             <td class="center">
-              <button class="btn btn-danger" @click="removeItem(item.productId)">
+              <button class="btn btn-danger" @click="removeItem(item.id)">
                 ✕
               </button>
             </td>
@@ -101,7 +101,7 @@ function onQuantityChange(item) {
 }
 
 function removeItem(productId) {
-  items.value = items.value.filter((i) => i.productId !== productId);
+  items.value = items.value.filter((i) => i.id !== productId);
   saveCart();
 }
 
@@ -123,7 +123,7 @@ const totalItems = computed(() =>
 );
 
 const totalPrice = computed(() =>
-  items.value.reduce((acc, item) => acc + item.price * item.quantity, 0)
+  items.value.reduce((acc, item) => acc + item.precio * item.quantity, 0)
 );
 
 onMounted(() => {
