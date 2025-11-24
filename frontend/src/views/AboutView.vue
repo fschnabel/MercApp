@@ -22,7 +22,7 @@
     </ul>
 
     <p class="student">
-      Estudiante: <strong>[Tu Nombre Aquí]</strong><br />
+      Estudiante: <strong>Francisco Schnabel</strong><br />
       Universidad Politécnica Salesiana
     </p>
 

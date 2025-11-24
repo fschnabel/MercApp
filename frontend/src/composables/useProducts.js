@@ -41,7 +41,7 @@ export function useProducts() {
       // si en Mongo/Express guardas `categoriaId`
       const matchesCategory =
         !categoryId.value ||
-        p.categoriaId === Number(categoryId.value);
+        p.categoriaId.id === categoryId.value;
 
       return matchesSearch && matchesCategory;
     });

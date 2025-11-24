@@ -17,6 +17,10 @@
     <router-link class="detail-link" :to="`/product/${product.id}`">
       Ver detalle
     </router-link>
+
+    <router-link class="detail-link" :to="`/product/${product.id}/edit`">
+      Editar
+    </router-link>
   </div>
 </template>
 

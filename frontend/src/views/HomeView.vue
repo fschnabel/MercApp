@@ -7,16 +7,16 @@
         v-model="search"
         placeholder="Buscar por nombre o descripción"
       />
-      <select v-model="categoryId">
-        <option value="">Todas las categorías</option>
-        <option
-          v-for="c in categories?.value || []"
-          :key="c.id"
-          :value="c.id"
-        >
-          {{ c.name }}
-        </option>
-      </select>
+    <select v-model="categoryId">
+      <option value="">Todas las categorías</option>
+      <option
+        v-for="c in categories"
+        :key="c.id"
+        :value="c.id"
+      >
+        {{ c.nombre }}
+      </option>
+    </select>
     </div>
 
     <div v-if="loading">Cargando productos...</div>
