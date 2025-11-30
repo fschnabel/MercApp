@@ -28,9 +28,20 @@ app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
 
+const allowedOrigins = (process.env.FRONTEND_URL || '').split(',');
+
 app.use(
   cors({
-    origin: FRONTEND_URL,
+    origin: (origin, callback) => {
+      // Peticiones sin origin (por ejemplo Postman) se permiten
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error('Origen no permitido por CORS: ' + origin), false);
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })
 );
