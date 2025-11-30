@@ -9,10 +9,13 @@ const productosRouter = require('./routes/producto.rutas');
 
 const app = express();
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/mercapp'
+const PORT = process.env.PORT || 3000;
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
+const MONGO_URI = process.env.MONGO_URI;
+
 
 mongoose
-  .connect(mongoUri)
+  .connect(MONGO_URI)
   .then(() => {
     console.log('Conectado a MongoDB')
   })
@@ -24,6 +27,13 @@ mongoose
 app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
+
+app.use(
+  cors({
+    origin: FRONTEND_URL,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  })
+);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'API MercApp funcionando' })
@@ -56,7 +66,6 @@ app.use((err, req, res, next) => {
 })
 
 
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor backend escuchando en http://localhost:${PORT}`);
 });
