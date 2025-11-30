@@ -1,5 +1,7 @@
 import { ref } from 'vue';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+
 export function useApi() {
   const data = ref(null);
   const loading = ref(false);
@@ -23,6 +25,17 @@ export function useApi() {
       ...fetchOptions
     } = options;
 
+    // 🔹 Construimos la URL final:
+    // - Si empieza con http, la dejamos igual
+    // - Si no, le anteponemos API_BASE_URL (si está definido)
+    let finalUrl = url;
+    if (!/^https?:\/\//i.test(url)) {
+      // evitamos dobles barras tipo https://...//
+      const base = API_BASE_URL.replace(/\/+$/, '');
+      const path = url.startsWith('/') ? url : `/${url}`;
+      finalUrl = base ? `${base}${path}` : url;
+    }
+
     // Si había una petición anterior, la cancelamos
     if (currentController.value) {
       currentController.value.abort();
@@ -42,11 +55,9 @@ export function useApi() {
     let attempt = 0;
 
     // Bucle de reintentos
-    // 1 intento normal + N reintentos adicionales (retries)
-    // Ej: retries = 2 -> hasta 3 intentos en total
     while (true) {
       try {
-        const response = await fetch(url, fetchOptions);
+        const response = await fetch(finalUrl, fetchOptions);
 
         if (!response.ok) {
           // Intentamos sacar un mensaje amigable del backend
